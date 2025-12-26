@@ -1,0 +1,80 @@
+body {
+    background: #f4f6f9;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    width: 230px;
+    height: 100vh;
+    position: fixed;
+    background: #212529;
+    color: white;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    color: #fff;
+    display: block;
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.sidebar a:hover {
+    background: #495057;
+}
+
+.header {
+    margin-left: 230px;
+    height: 60px;
+    background: #343a40;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    font-size: 20px;
+}
+
+.content {
+    margin-left: 230px;
+    margin-top: 70px;
+    padding: 20px;
+}
+/* Modal width */
+.modal-lg {
+    max-width: 900px;
+}
+
+/* Modern modal look */
+.modal-content {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Section header inside modal */
+.modal-section-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+/* Input with icons */
+.input-icon {
+    position: relative;
+}
+
+.input-icon i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: gray;
+}
+
+.input-icon input {
+    padding-left: 35px !important;
+}

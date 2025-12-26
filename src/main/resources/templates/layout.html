@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Billing System</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- ================= SIDEBAR FRAGMENT ================= -->
+<div th:fragment="sidebar" class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
+     style="width: 260px; min-height: 100vh;">
+    <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <span class="fs-4">Billing System</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a th:href="@{/}" class="nav-link text-white">
+                🏠 Dashboard
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/customers}" class="nav-link active text-white">
+                👥 Customers
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/services}" class="nav-link text-white">
+                👥 Services
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link text-white">
+                🧾 Invoices
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link text-white">
+                📦 Products
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link text-white">
+                📚 Ledger
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link text-white">
+                ⚙ Settings
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- ================= HEADER FRAGMENT ================= -->
+<div th:fragment="header" class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h5">Invoice &amp; Billing System</span>
+    </div>
+</div>
+
+</body>
+</html>
