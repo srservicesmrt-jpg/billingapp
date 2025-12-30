@@ -15,5 +15,9 @@ public class PageController {
     public String servicePage(Model model) {
         return "services";
     }
+    @GetMapping("/companies")
+    public String companiesPage(Model model) {
+        return "companies";
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.billing.billingapp.Customer;
+package com.billing.billingapp.Companies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customers")
-public class CustomerController {
+@RequestMapping("/api/companies")
+public class CompaniesController {
 
     @Autowired
-    private CustomerRepository repo;
+    private CompaniesRepository repo;
 
     // Add Customer
     @PostMapping
-    public ResponseEntity<?> addCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<?> addCustomer(@RequestBody Companies customer) {
         if (repo.existsByGstin(customer.getGstin())) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
@@ -28,7 +28,7 @@ public class CustomerController {
 
     // LIST + FILTER (Works for both)
     @GetMapping
-    public List<Customer> getCustomers(
+    public List<Companies> getCustomers(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String gstin,
             @RequestParam(required = false) String state,
@@ -48,13 +48,13 @@ public class CustomerController {
 
     // Get by ID
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable Integer id) {
+    public Companies getCustomerById(@PathVariable Integer id) {
         return repo.findById(id).orElse(null);
     }
 
     // Update
     @PutMapping("/{id}")
-    public Customer updateCustomer(@PathVariable Integer id, @RequestBody Customer newData) {
+    public Companies updateCustomer(@PathVariable Integer id, @RequestBody Companies newData) {
         return repo.findById(id).map(c -> {
             c.setCustomerName(newData.getCustomerName());
             c.setAddress(newData.getAddress());

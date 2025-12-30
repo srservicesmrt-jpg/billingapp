@@ -1,13 +1,14 @@
-package com.billing.billingapp.Customer;
+package com.billing.billingapp.Companies;
 
 import jakarta.persistence.*;
+
 import java.util.Date;
 
 @Entity
 @Table(name = "Customers")
-public class Customer {
+public class Companies {
 
-    public Customer() {}  // Default constructor is required
+    public Companies() {}  // Default constructor is required
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

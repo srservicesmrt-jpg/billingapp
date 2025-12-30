@@ -1,11 +1,11 @@
-package com.billing.billingapp.Customer;
+package com.billing.billingapp.Companies;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+public interface CompaniesRepository extends JpaRepository<Companies, Integer> {
     boolean existsByGstin(String gstin);
     @Query("""
        SELECT c FROM Customer c 
@@ -14,7 +14,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
          AND (:state IS NULL OR c.stateName LIKE %:state%)
          AND (:contact IS NULL OR c.contact LIKE %:contact%)
        """)
-    List<Customer> filter(
+    List<Companies> filter(
             String name,
             String gstin,
             String state,
