@@ -14,65 +14,78 @@ public class CompaniesController {
     @Autowired
     private CompaniesRepository repo;
 
-    // Add Customer
+    // -------------------- ADD COMPANY --------------------
     @PostMapping
-    public ResponseEntity<?> addCustomer(@RequestBody Companies customer) {
-        if (repo.existsByGstin(customer.getGstin())) {
+    public ResponseEntity<?> addCompany(@RequestBody Companies company) {
+
+        if (company.getGstNumber() != null && repo.existsByGstNumber(company.getGstNumber())) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
-                    .body("GSTIN already exists!");
+                    .body("GST Number already exists!");
         }
 
-        return ResponseEntity.ok(repo.save(customer));
+        return ResponseEntity.ok(repo.save(company));
     }
 
-    // LIST + FILTER (Works for both)
+    // -------------------- LIST + FILTER --------------------
     @GetMapping
-    public List<Companies> getCustomers(
+    public List<Companies> getCompanies(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) String gstin,
+            @RequestParam(required = false) String gst,
             @RequestParam(required = false) String state,
-            @RequestParam(required = false) String contact
+            @RequestParam(required = false) String mobile
     ) {
         return repo.findAll().stream()
-                .filter(c -> name == null || name.isBlank() ||
-                        c.getCustomerName().toLowerCase().contains(name.toLowerCase()))
-                .filter(c -> gstin == null || gstin.isBlank() ||
-                        c.getGstin().toLowerCase().contains(gstin.toLowerCase()))
-                .filter(c -> state == null || state.isBlank() ||
-                        c.getStateName().toLowerCase().contains(state.toLowerCase()))
-                .filter(c -> contact == null || contact.isBlank() ||
-                        c.getContact().contains(contact))
+                .filter(c -> name == null || name.isBlank()
+                        || c.getCompanyName().toLowerCase().contains(name.toLowerCase()))
+                .filter(c -> gst == null || gst.isBlank()
+                        || (c.getGstNumber() != null &&
+                        c.getGstNumber().toLowerCase().contains(gst.toLowerCase())))
+                .filter(c -> state == null || state.isBlank()
+                        || (c.getState() != null &&
+                        c.getState().toLowerCase().contains(state.toLowerCase())))
+                .filter(c -> mobile == null || mobile.isBlank()
+                        || (c.getMobile() != null &&
+                        c.getMobile().contains(mobile)))
                 .toList();
     }
 
-    // Get by ID
+    // -------------------- GET BY ID --------------------
     @GetMapping("/{id}")
-    public Companies getCustomerById(@PathVariable Integer id) {
+    public Companies getCompanyById(@PathVariable Integer id) {
         return repo.findById(id).orElse(null);
     }
 
-    // Update
+    // -------------------- UPDATE COMPANY --------------------
     @PutMapping("/{id}")
-    public Companies updateCustomer(@PathVariable Integer id, @RequestBody Companies newData) {
+    public ResponseEntity<?> updateCompany(@PathVariable Integer id,
+                                           @RequestBody Companies newData) {
+
         return repo.findById(id).map(c -> {
-            c.setCustomerName(newData.getCustomerName());
+
+            c.setCompanyName(newData.getCompanyName());
+            c.setContactPerson(newData.getContactPerson());
+            c.setEmail(newData.getEmail());
+            c.setMobile(newData.getMobile());
+            c.setGstNumber(newData.getGstNumber());
             c.setAddress(newData.getAddress());
-            c.setGstin(newData.getGstin());
-            c.setStateName(newData.getStateName());
-            c.setStateCode(newData.getStateCode());
-            c.setContact(newData.getContact());
-            return repo.save(c);
-        }).orElseThrow(() -> new RuntimeException("Customer not found"));
+            c.setCity(newData.getCity());
+            c.setState(newData.getState());
+            c.setPincode(newData.getPincode());
+            c.setIsActive(newData.getIsActive());
+
+            return ResponseEntity.ok(repo.save(c));
+
+        }).orElseThrow(() -> new RuntimeException("Company not found"));
     }
 
-    // Delete
+    // -------------------- DELETE COMPANY --------------------
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteCompany(@PathVariable Integer id) {
 
         if (!repo.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Customer with ID " + id + " not found!");
+                    .body("Company with ID " + id + " not found!");
         }
 
         repo.deleteById(id);

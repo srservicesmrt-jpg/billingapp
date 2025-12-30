@@ -1,112 +1,102 @@
 package com.billing.billingapp.Companies;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
 
 @Entity
-@Table(name = "Customers")
+@Table(name = "Companies")
 public class Companies {
 
-    public Companies() {}  // Default constructor is required
+    public Companies() {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CustomerId")
-    private Integer customerId;
+    @Column(name = "CompanyId")
+    private Integer companyId;
 
-    @Column(name = "CustomerName")
-    private String customerName;
+    @Column(name = "CompanyName", nullable = false, length = 150)
+    private String companyName;
 
-    @Column(name = "Address")
+    @Column(name = "ContactPerson", length = 100)
+    private String contactPerson;
+
+    @Column(name = "Email", length = 150)
+    private String email;
+
+    @Column(name = "Mobile", length = 15)
+    private String mobile;
+
+    @Column(name = "GstNumber", length = 20)
+    private String gstNumber;
+
+    @Column(name = "Address", length = 300)
     private String address;
 
-    @Column(name = "GSTIN")
-    private String gstin;
+    @Column(name = "City", length = 100)
+    private String city;
 
-    @Column(name = "StateName")
-    private String stateName;
+    @Column(name = "State", length = 100)
+    private String state;
 
-    @Column(name = "StateCode")
-    private String stateCode;
+    @Column(name = "Pincode", length = 10)
+    private String pincode;
 
-    @Column(name = "Contact")
-    private String contact;
+    @Column(name = "IsActive")
+    private Boolean isActive = true;
 
-    @Column(name = "CreatedAt")
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CreatedAt")
     private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UpdatedAt")
+    private Date updatedAt;
 
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();
     }
 
-    // ---------------------------
-    // GETTERS & SETTERS
-    // ---------------------------
-
-    public Integer getCustomerId() {
-        return customerId;
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Date();
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
+    // ---------------- GETTERS & SETTERS ----------------
 
-    public String getCustomerName() {
-        return customerName;
-    }
+    public Integer getCompanyId() { return companyId; }
+    public void setCompanyId(Integer companyId) { this.companyId = companyId; }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+    public String getCompanyName() { return companyName; }
+    public void setCompanyName(String companyName) { this.companyName = companyName; }
 
-    public String getAddress() {
-        return address;
-    }
+    public String getContactPerson() { return contactPerson; }
+    public void setContactPerson(String contactPerson) { this.contactPerson = contactPerson; }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getGstin() {
-        return gstin;
-    }
+    public String getMobile() { return mobile; }
+    public void setMobile(String mobile) { this.mobile = mobile; }
 
-    public void setGstin(String gstin) {
-        this.gstin = gstin;
-    }
+    public String getGstNumber() { return gstNumber; }
+    public void setGstNumber(String gstNumber) { this.gstNumber = gstNumber; }
 
-    public String getStateName() {
-        return stateName;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public void setStateName(String stateName) {
-        this.stateName = stateName;
-    }
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
 
-    public String getStateCode() {
-        return stateCode;
-    }
+    public String getState() { return state; }
+    public void setState(String state) { this.state = state; }
 
-    public void setStateCode(String stateCode) {
-        this.stateCode = stateCode;
-    }
+    public String getPincode() { return pincode; }
+    public void setPincode(String pincode) { this.pincode = pincode; }
 
-    public String getContact() {
-        return contact;
-    }
+    public Boolean getIsActive() { return isActive; }
+    public void setIsActive(Boolean isActive) { this.isActive = isActive; }
 
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+    public Date getCreatedAt() { return createdAt; }
+    public Date getUpdatedAt() { return updatedAt; }
 }
