@@ -225,7 +225,7 @@ function validateAll() {
     if (gstin.value.length !== 15)
         errors.push("GSTIN must be 15 characters.");
 
-    if (!/^[A-Za-z ]+$/.test(stateName.value.trim()))
+    if (stateName.value.trim()==="")
         errors.push("State Name is invalid.");
 
     if (!/^[0-9]+$/.test(stateCode.value))

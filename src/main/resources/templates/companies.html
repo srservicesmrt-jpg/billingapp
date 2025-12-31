@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{title.customers}">Customers</title>
+    <title th:text="#{title.addCompanies}"></title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -44,12 +44,12 @@
             <div class="card shadow">
                 <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
 
-                    <h4 th:text="#{title.customers}"></h4>
+                    <h4 th:text="#{title.Companies}"></h4>
 
                     <button class="btn btn-success btn-sm"
                             data-bs-toggle="modal" data-bs-target="#addModal"
                             onclick="openAddModal()">
-                        ➕ <span th:text="#{btn.addcustomer}"></span>
+                        ➕ <span th:text="#{btn.addCompanies}"></span>
                     </button>
 
                 </div>
@@ -73,7 +73,7 @@
 
                                 <h6 class="fw-bold mb-3 text-primary">
                                     <i class="bi bi-funnel-fill"></i>
-                                    <span th:text="#{label.filtercustomers}"></span>
+                                    <span th:text="#{label.filtercompanies}"></span>
                                 </h6>
 
                                 <div class="row g-3">
@@ -81,19 +81,35 @@
                                     <div class="col-md-3">
                                         <label class="form-label">
                                             <i class="bi bi-person"></i>
-                                            <span th:text="#{label.name}"></span>
+                                            <span th:text="#{label.companyName}"></span>
                                         </label>
-                                        <input id="filterName" class="form-control"
-                                               th:placeholder="#{ph.name}">
+                                        <input id="filterCompanyName" class="form-control"
+                                               th:placeholder="#{ph.companyName}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">
+                                            <i class="bi bi-person"></i>
+                                            <span th:text="#{label.contactPerson}"></span>
+                                        </label>
+                                        <input id="filterContactPerson" class="form-control"
+                                               th:placeholder="#{ph.contactPersonName}">
                                     </div>
 
                                     <div class="col-md-3">
                                         <label class="form-label">
                                             <i class="bi bi-upc"></i>
-                                            <span th:text="#{label.gstin}"></span>
+                                            <span th:text="#{label.email}"></span>
                                         </label>
-                                        <input id="filterGSTIN" class="form-control"
-                                               th:placeholder="#{ph.gstin}">
+                                        <input id="filterEmail" class="form-control"
+                                               th:placeholder="#{ph.emailId}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">
+                                            <i class="bi bi-upc"></i>
+                                            <span th:text="#{label.gstnumber}"></span>
+                                        </label>
+                                        <input id="filterGstNumber" class="form-control"
+                                               th:placeholder="#{ph.gstnumber}">
                                     </div>
 
                                     <div class="col-md-3">
@@ -104,16 +120,6 @@
                                         <input id="filterState" class="form-control"
                                                th:placeholder="#{ph.state}">
                                     </div>
-
-                                    <div class="col-md-3">
-                                        <label class="form-label">
-                                            <i class="bi bi-telephone"></i>
-                                            <span th:text="#{label.contact}"></span>
-                                        </label>
-                                        <input id="filterContact" class="form-control"
-                                               th:placeholder="#{ph.contact}">
-                                    </div>
-
                                 </div>
 
                                 <hr class="mt-4">
@@ -150,11 +156,17 @@
                             <thead class="table-dark">
                             <tr>
                                 <th th:text="#{label.id}"></th>
-                                <th th:text="#{label.name}"></th>
-                                <th th:text="#{label.gstin}"></th>
+                                <th th:text="#{label.companyName}"></th>
+                                <th th:text="#{label.contactPerson}"></th>
+                                <th th:text="#{label.gstnumber}"></th>
+                                <th th:text="#{label.email}"></th>
+                                <th th:text="#{label.mobile}"></th>
+                                <th th:text="#{label.address}"></th>
+                                <th th:text="#{label.city}"></th>
                                 <th th:text="#{label.state}"></th>
-                                <th th:text="#{label.contact}"></th>
-                                <th th:text="#{label.actions}"></th>
+                                <th th:text="#{label.pincode}"></th>
+                                <th th:text="#{label.isactive}"></th>
+
                             </tr>
                             </thead>
                             <tbody id="tableBody"></tbody>
@@ -187,88 +199,113 @@
         <div class="modal-content">
 
             <div class="modal-header bg-secondary text-white">
-                <h5 class="modal-title" id="modalTitle" th:text="#{title.addcustomer}">Add Customer</h5>
+                <h5 class="modal-title" id="modalTitle" >Modal</h5>
                 <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
 
-                <input type="hidden" id="customerId">
+                <input type="hidden" id="companyId">
 
                 <div class="row g-3">
 
                     <!-- Name -->
                     <div class="col-md-6">
-                        <label for="customerName" class="form-label" th:text="#{label.name}"></label>
+                        <label for="companyName" class="form-label" th:text="#{label.companyName}"></label>
                         <div class="input-icon">
                             <i class="bi bi-person"></i>
-                            <input id="customerName"
+                            <input id="companyName"
                                    class="form-control"
-                                   th:placeholder="#{ph.name}"
-                                   oninput="validateName()">
+                                   th:placeholder="#{ph.companyName}"
+                                   >
                         </div>
-                        <small id="nameError" class="text-danger d-none" th:text="#{err.name}"></small>
+                        <small id="companyNameError" class="text-danger d-none" th:text="#{err.companyName}"></small>
                     </div>
 
                     <!-- Contact -->
                     <div class="col-md-6">
-                        <label for="contact" class="form-label" th:text="#{label.contact}"></label>
+                        <label for="contactPerson" class="form-label" th:text="#{label.contactPerson}"></label>
                         <div class="input-icon">
-                            <i class="bi bi-phone"></i>
-                            <input id="contact"
+                            <i class="bi bi-person"></i>
+                            <input id="contactPerson"
                                    class="form-control"
                                    maxlength="10"
-                                   th:placeholder="#{ph.contact}"
-                                   oninput="validateContact()">
+                                   th:placeholder="#{ph.contactPersonName}"
+                                   >
                         </div>
-                        <small id="contactError" class="text-danger d-none" th:text="#{err.contact}"></small>
+                        <small id="contactPersonError" class="text-danger d-none" th:text="#{err.contactPerson}"></small>
                     </div>
 
                 </div>
 
                 <!-- Address -->
-                <div class="mt-3">
-                    <label for="address" class="form-label" th:text="#{label.address}"></label>
-                    <div class="input-icon">
-                        <i class="bi bi-geo"></i>
-                        <input id="address"
-                               class="form-control"
-                               th:placeholder="#{ph.address}"
-                               oninput="validateAddress()">
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <label for="gstnumber" class="form-label" th:text="#{label.gstnumber}"></label>
+                        <div class="input-icon">
+                            <i class="bi bi-receipt"></i>
+
+                            <input id="gstnumber"
+                                   class="form-control"
+                                   th:placeholder="#{ph.gstnumber}"
+                                   >
+                        </div>
+                        <small id="gstnumberError" class="text-danger d-none" th:text="#{err.gstnumber}"></small>
                     </div>
-                    <small id="addressError" class="text-danger d-none" th:text="#{err.address}"></small>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label" th:text="#{label.email}"></label>
+                        <div class="input-icon">
+                            <i class="bi bi-envelope-fill"></i>
+                            <input id="email"
+                                   class="form-control"
+                                   th:placeholder="#{ph.emailId}"
+                            >
+                        </div>
+                        <small id="emailError" class="text-danger d-none" th:text="#{err.email}"></small>
+                    </div>
                 </div>
 
+
                 <!-- GSTIN -->
-                <div class="mt-3">
-                    <label for="gstin" class="form-label" th:text="#{label.gstin}"></label>
-                    <div class="input-icon">
-                        <i class="bi bi-receipt"></i>
-                        <input id="gstin"
-                               class="form-control"
-                               th:placeholder="#{ph.gstin}"
-                               oninput="validateGSTIN()">
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <label for="mobile" class="form-label" th:text="#{label.mobile}"></label>
+                        <div class="input-icon">
+                            <i class="bi bi-phone"></i>
+                            <input id="mobile"
+                                   class="form-control"
+                                   maxlength="10"
+                                   th:placeholder="#{ph.mobile}"
+                            >
+                        </div>
+                        <small id="mobileError" class="text-danger d-none" th:text="#{err.mobile}"></small>
                     </div>
-                    <small id="gstinError" class="text-danger d-none" th:text="#{err.gstin}"></small>
+
+                    <div class="col-md-6">
+                        <label for="address" class="form-label" th:text="#{label.address}"></label>
+                        <div class="input-icon">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <input id="address"
+                                   class="form-control"
+                                   th:placeholder="#{ph.address}"
+                            >
+                        </div>
+                        <small id="addressError" class="text-danger d-none" th:text="#{err.address}"></small>
+                    </div>
                 </div>
 
                 <div class="row g-3 mt-2">
-
-                    <!-- State Code -->
                     <div class="col-md-6">
-                        <label for="stateCode" class="form-label" th:text="#{label.statecode}"></label>
+                        <label for="city" class="form-label" th:text="#{label.city}"></label>
                         <div class="input-icon">
-                            <i class="bi bi-hash"></i>
-                            <input id="stateCode"
+                            <i class="bi bi-buildings"></i>
+                            <input id="city"
                                    class="form-control"
-                                   maxlength="2"
-                                   th:placeholder="#{ph.statecode}"
-                                   oninput="validateStateCode()">
+                                   th:placeholder="#{ph.city}"
+                                   >
                         </div>
-                        <small id="stateCodeError" class="text-danger d-none" th:text="#{err.statecode}"></small>
+                        <small id="cityCodeError" class="text-danger d-none" th:text="#{err.city}"></small>
                     </div>
-
-                    <!-- State Name -->
                     <div class="col-md-6">
                         <label for="stateName" class="form-label" th:text="#{label.state}"></label>
                         <div class="input-icon">
@@ -276,18 +313,40 @@
                             <input id="stateName"
                                    class="form-control"
                                    th:placeholder="#{ph.state}"
-                                   oninput="validateStateName()">
+                                  >
                         </div>
                         <small id="stateError" class="text-danger d-none" th:text="#{err.state}"></small>
                     </div>
-
                 </div>
-
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <label for="pincode" class="form-label" th:text="#{label.pincode}"></label>
+                        <div class="input-icon">
+                            <i class="bi bi-mailbox2-flag"></i>
+                            <input id="pincode"
+                                   class="form-control"
+                                   th:placeholder="#{ph.pincode}"
+                                   >
+                        </div>
+                        <small id="pincodeError" class="text-danger d-none" th:text="#{err.pincode}"></small>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="isactive" class="form-label" th:text="#{label.isactive}"></label>
+                        <div class="input-icon">
+                            <i class="bi bi-check-circle-fill "></i>
+                            <input id="isactive"
+                                   class="form-control"
+                                   th:placeholder="#{ph.isactive}"
+                            >
+                        </div>
+                        <small id="isactiveError" class="text-danger d-none" th:text="#{err.isactive}"></small>
+                    </div>
+                </div>
             </div>
 
             <div class="modal-footer">
                 <button class="btn btn-outline-secondary" data-bs-dismiss="modal" th:text="#{btn.close}"></button>
-                <button class="btn btn-primary px-4" onclick="saveCustomer()" th:text="#{btn.save}"></button>
+                <button class="btn btn-primary px-4" onclick="saveCompany()" th:text="#{btn.save}"></button>
             </div>
 
         </div>
