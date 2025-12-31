@@ -78,3 +78,87 @@ body {
 .input-icon input {
     padding-left: 35px !important;
 }
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar .nav-link {
+    font-size: 14px;
+    padding: 8px 12px;
+}
+
+.navbar .nav-link.active {
+    font-weight: 600;
+    color: #0d6efd !important;
+}
+.rotate-arrow {
+    transition: transform 0.3s ease;
+}
+
+.collapse.show + .rotate-arrow,
+.nav-link[aria-expanded="true"] .rotate-arrow {
+    transform: rotate(90deg);
+}
+.table thead tr th,#tableBody tr td{
+white-space:pre;
+}
+
+.table-responsive{ overflow-x:hidden !important; }
+
+.expand-row{
+    background:#f8f9fa;
+    display:none;
+}
+
+.expand-row td{
+    padding:10px 20px;
+    font-size:14px;
+}
+
+
+.table td, .table th{
+    text-align:center;
+    vertical-align:middle;
+}
+
+.expand-btn{
+    display:inline-block;
+    width:26px;
+    height:26px;
+    line-height:26px;
+    border-radius:50%;
+    background:#0d6efd;
+    color:#fff;
+    font-weight:bold;
+    text-align:center;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.expand-btn:hover{
+    background:#084298;
+    transform:scale(1.1);
+}
+.detail-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:18px 40px;
+}
+
+.detail-grid div{
+    display:flex;
+    justify-content:space-between;
+    background:#ffffff;
+    padding:10px 14px;
+    border-radius:8px;
+    box-shadow:0 0 5px rgba(0,0,0,0.05);
+}
+
+.detail-grid b{
+    color:#000;
+}
+
+.detail-grid span{
+    color:#444;
+}
+

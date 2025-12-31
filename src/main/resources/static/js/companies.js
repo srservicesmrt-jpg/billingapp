@@ -25,38 +25,45 @@ function loadTable() {
  * -------------------------------------------------- */
 function renderTable() {
     const start = (page - 1) * limit;
-    const end = start + limit;
+    const end   = start + limit;
     const pageData = filtered.slice(start, end);
 
-    let html = pageData
-        .map(c => `
-            <tr>
-                <td>${c.companyId}</td>
-                <td>${c.companyName}</td>
-                <td>${c.contactPerson}</td>
-                <td>${c.gstNumber}</td>
-                <td>${c.email}</td>
-                <td>${c.mobile}</td>
-                <td>${c.address}</td>
-                <td>${c.city}</td>
-                <td>${c.state}</td>
-                <td>${c.pincode}</td>
-                <td>${c.isActive}</td>
-                
-                <td class="text-center">
-                    <button class="btn btn-warning btn-sm me-1" onclick="openEdit(${c.companyId})">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" onclick="confirmDelete(${c.companyId})">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-            </tr>
-        `).join("");
+    let html = "";
+
+    pageData.forEach((c, index) => {
+        html += `
+        <tr>
+            <td class="text-center"> <button class="btn btn-warning btn-sm me-1" onclick="openEdit(${c.companyId})"> <i class="bi bi-pencil-square"></i> </button> <button class="btn btn-danger btn-sm" onclick="confirmDelete(${c.companyId})"> <i class="bi bi-trash"></i> </button> </td>
+            <td>${c.companyId}</td>
+            <td>${c.companyName}</td>
+            <td>${c.contactPerson}</td>
+            <td>${c.gstNumber}</td>
+            <td>${c.email}</td>
+
+            <td class="text-center">
+                <span class="expand-btn" onclick="toggleRow(${index})">+</span>
+            </td>
+        </tr>
+
+        <tr class="expand-row" id="expand-${index}">
+            <td colspan="6">
+                <div class="detail-grid">
+                    <div><b>Mobile</b><span>${c.mobile}</span></div>
+                    <div><b>Address</b><span>${c.address}</span></div>
+                    <div><b>City</b><span>${c.city}</span></div>
+                    <div><b>State</b><span>${c.state}</span></div>
+                    <div><b>Pin Code</b><span>${c.pincode}</span></div>
+                    <div><b>Status</b><span>${c.isActive}</span></div>
+                </div>
+            </td>
+        </tr>
+        `;
+    });
 
     document.getElementById("tableBody").innerHTML = html;
     updatePagination();
 }
+
 
 /** --------------------------------------------------
  *  Pagination
@@ -300,6 +307,20 @@ function clearFilters() {
     page = 1;
     renderTable();
 }
+
+function toggleRow(index){
+    const row = document.getElementById("expand-" + index);
+    const btn = row.previousElementSibling.querySelector(".expand-btn");
+
+    if(row.style.display === "table-row"){
+        row.style.display = "none";
+        btn.innerText = "+";
+    }else{
+        row.style.display = "table-row";
+        btn.innerText = "−";
+    }
+}
+
 
 
 /** --------------------------------------------------
