@@ -30,23 +30,23 @@ public class CompaniesController {
     // -------------------- LIST + FILTER --------------------
     @GetMapping
     public List<Companies> getCompanies(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String gst,
+            @RequestParam(required = false) String companyName,
+            @RequestParam(required = false) String gstNumber,
             @RequestParam(required = false) String state,
-            @RequestParam(required = false) String mobile
+            @RequestParam(required = false) String email
     ) {
         return repo.findAll().stream()
-                .filter(c -> name == null || name.isBlank()
-                        || c.getCompanyName().toLowerCase().contains(name.toLowerCase()))
-                .filter(c -> gst == null || gst.isBlank()
+                .filter(c -> companyName == null || companyName.isBlank()
+                        || c.getCompanyName().toLowerCase().contains(companyName.toLowerCase()))
+                .filter(c -> gstNumber == null || gstNumber.isBlank()
                         || (c.getGstNumber() != null &&
-                        c.getGstNumber().toLowerCase().contains(gst.toLowerCase())))
+                        c.getGstNumber().toLowerCase().contains(gstNumber.toLowerCase())))
                 .filter(c -> state == null || state.isBlank()
                         || (c.getState() != null &&
                         c.getState().toLowerCase().contains(state.toLowerCase())))
-                .filter(c -> mobile == null || mobile.isBlank()
-                        || (c.getMobile() != null &&
-                        c.getMobile().contains(mobile)))
+                .filter(c -> email == null || email.isBlank()
+                        || (c.getEmail() != null &&
+                        c.getEmail().contains(email)))
                 .toList();
     }
 
