@@ -52,6 +52,13 @@ public class Companies {
     @Column(name = "UpdatedAt")
     private Date updatedAt;
 
+    @Column(name = "Password", nullable = true)
+    private String password;
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();

@@ -3,9 +3,11 @@ package com.billing.billingapp.Companies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/companies")
@@ -23,8 +25,11 @@ public class CompaniesController {
                     .status(HttpStatus.CONFLICT)
                     .body("GST Number already exists!");
         }
+        company.setPassword(null);
+        Companies saved = repo.save(company);
 
-        return ResponseEntity.ok(repo.save(company));
+        saved.setPassword(null);        // 🔐 never return password in response
+        return ResponseEntity.ok(saved);
     }
 
     // -------------------- LIST + FILTER --------------------
@@ -49,6 +54,62 @@ public class CompaniesController {
                         c.getEmail().contains(email)))
                 .toList();
     }
+
+
+    //______________ Password-------------
+//http://localhost:8080/api/companies/2/password?newPassword=Welcome@123
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @PostMapping("/{id}/password")
+    public ResponseEntity<?> updatePassword(
+            @PathVariable Integer id,
+            @RequestParam String newPassword) {
+
+        Companies company = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Company not found"));
+
+        String encrypted = passwordEncoder.encode(newPassword);
+        company.setPassword(encrypted);
+
+        repo.save(company);
+
+        return ResponseEntity.ok("Password updated successfully");
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String username,
+                                   @RequestParam String password) {
+
+        Optional<Companies> companyOpt =
+                username.contains("@") ?
+                        repo.findByEmail(username) :
+                        repo.findByMobile(username);
+
+        if (companyOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid Username");
+        }
+
+        Companies company = companyOpt.get();
+
+        if (company.getPassword() == null) {
+            return ResponseEntity.badRequest()
+                    .body("Password not created. Contact Admin.");
+        }
+
+        if (!passwordEncoder.matches(password, company.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid Password");
+        }
+
+        company.setPassword(null);   // never expose password
+        return ResponseEntity.ok(company);
+    }
+
+
+
 
     // -------------------- GET BY ID --------------------
     @GetMapping("/{id}")

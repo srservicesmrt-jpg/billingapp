@@ -145,7 +145,7 @@ function saveCompany() {
         isactive: document.getElementById("isactive").value.trim(),
 
     };
-
+console.log(JSON.stringify(data));
     let errors = validateAll();
 
     if (errors.length > 0) {
