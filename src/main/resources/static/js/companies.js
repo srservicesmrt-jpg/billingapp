@@ -5,6 +5,8 @@ let total = [];
 let filtered = [];
 let page = 1;
 let limit = 5;
+let selectedCompanyId = null;
+
 
 /** --------------------------------------------------
  *  Load All Customers
@@ -33,7 +35,7 @@ function renderTable() {
     pageData.forEach((c, index) => {
         html += `
         <tr>
-            <td class="text-center"> <button class="btn btn-warning btn-sm me-1" onclick="openEdit(${c.companyId})"> <i class="bi bi-pencil-square"></i> </button> <button class="btn btn-danger btn-sm" onclick="confirmDelete(${c.companyId})"> <i class="bi bi-trash"></i> </button> </td>
+            <td class="text-center"> <button class="btn btn-warning btn-sm me-1" onclick="openEdit(${c.companyId})"> <i class="bi bi-pencil-square"></i> </button> <button class="btn btn-danger btn-sm" onclick="confirmDelete(${c.companyId})"> <i class="bi bi-trash"></i> </button> <button class="btn btn-primary btn-sm " onclick="openSettings(${c.companyId})"> <i class="bi bi-gear"></i></button></td>
             <td>${c.companyId}</td>
             <td>${c.companyName}</td>
             <td>${c.contactPerson}</td>
@@ -320,8 +322,42 @@ function toggleRow(index){
         btn.innerText = "−";
     }
 }
+function openSettings(id) {
+    // alert(id);
+    selectedCompanyId = id;
+    document.getElementById("newPassword").value = "";
+    new bootstrap.Modal(document.getElementById("passwordModal")).show();
 
+}
 
+function updateCompanyPassword() {
+
+    const newPassword = document.getElementById("newPassword").value.trim();
+
+    if (newPassword.length < 6) {
+        alert("Password must be at least 6 characters.");
+        return;
+    }
+
+    fetch(`/api/companies/${selectedCompanyId}/password`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `newPassword=${encodeURIComponent(newPassword)}`
+    })
+        .then(res => res.text())
+        .then(msg => {
+            console.log(msg)
+            alert(msg);
+            document.getElementById("newPassword").value = "";
+            document.getElementById("passwordModalClose").click(); // close modal
+        })
+        .catch(err => {
+            console.error("Password update failed:", err);
+            alert("Error updating password");
+        });
+}
 
 /** --------------------------------------------------
  *  Initial Load
